@@ -1,0 +1,6 @@
+ROTAS
+
+1 GET/ 
+/vendedores/iddovendedor
+
+PARA CONSULTAR VENDEDORES ESPECIFICOS NO BD.

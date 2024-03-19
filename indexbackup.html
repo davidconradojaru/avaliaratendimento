@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação de Vendedor</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+            <img src="img/logo3.png" alt="Logotipo da Empresa" class="logo">
+            <h1 id="animatedText">AVALIE O ATENDIMENTO DO VENDEDOR!!!</h1>
+
+            <div id="main">
+                <div id="rating">
+                    <span class="emoji" onclick="setRating(1)">😡</span>
+                    <span class="emoji" onclick="setRating(2)">😠</span>
+                    <span class="emoji" onclick="setRating(3)">😐</span>
+                    <span class="emoji" onclick="setRating(4)">🙂</span>
+                    <span class="emoji" onclick="setRating(5)">😄</span>
+                </div>
+            </div>
+
+            <br><br>
+
+            <div id="resultContainer" style="display: none;">
+                <p>Sua avaliação: <span id="result">-</span></p>
+                <p id="thankYouMessage" style="opacity: 0;">Obrigado por comprar na Novalar!</p>
+
+            </div>
+            <!-- Campo para exibir o idVendedor -->
+            <div id="vendedorInfo">
+                <p>ID Vendedor: <span id="idVendedor">-</span></p>
+                <p>Nome do Vendedor: <span id="nomeVendedor">-</span></p>
+            </div>
+    
+
+            <footer>
+                <div class="container">
+                    <div class="copyright">
+                        <p>&copy; 2024 Novalar S/A. Todos os direitos reservados.</p>
+                    </div>
+                </div>
+            </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

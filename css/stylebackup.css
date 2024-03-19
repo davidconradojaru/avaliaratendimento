@@ -1,0 +1,141 @@
+/* style.css */
+/*RESPONSIVIDADE:*/
+/* Estilos para dispositivos de tela pequena (até 768px de largura) */
+@media (max-width: 768px) {
+    /* Adicione estilos específicos para dispositivos de tela pequena aqui */
+}
+
+/* Estilos para dispositivos de tela média (entre 768px e 1024px de largura) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Adicione estilos específicos para dispositivos de tela média aqui */
+}
+
+/* Estilos para dispositivos de tela grande (mais de 1024px de largura) */
+@media (min-width: 1024px) {
+    /* Adicione estilos específicos para dispositivos de tela grande aqui */
+}
+
+
+/* Estilos padrão */
+body {
+    background-color:#FFD100;
+    display: block;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Define a altura do corpo como a altura da viewport */
+    margin: 10px; /* Remove margens padrão */
+    padding: 0; /* Remove preenchimentos padrão */
+    font-family: Arial, sans-serif; /* Define uma fonte padrão */
+}
+
+.container {
+    
+    max-width: 800px; /* Define a largura máxima do conteúdo */
+    padding: 5px; /* Adiciona espaçamento interno */
+    text-align: center; /* Alinha o conteúdo ao centro */
+    border-radius: 80px; /* Adiciona borda arredondada */
+    background-color: white; /* Define a cor de fundo */
+    font-size: 1em; /* Define o tamanho da fonte */
+    margin: 30px auto; /* Adiciona margem externa */
+    display: block;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+
+.logo {
+    display: block;
+    margin: 0 auto; /* Centraliza a imagem horizontalmente */
+    text-align: center; /* Centraliza o texto horizontalmente */
+    width: 80%; /* Define a largura da imagem em relação à largura da div .container */
+    max-width: 300px; /* Define a largura máxima da imagem */
+}
+
+
+#rating {
+    background-color: white;
+    padding: 10px;
+    border-radius: 80px;
+    font-size: 3em;
+    
+}
+.emoji {
+    font-size: 70%;
+    cursor: pointer;
+    
+}
+
+
+#animatedText {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#main {
+    background-color: white;
+    padding: 20px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50px;
+}
+
+
+
+#resultContainer {
+    text-align: center;
+    display: none; /* Inicialmente oculto */
+    margin-top: 20px; /* Adiciona margem superior */
+    font-size: 24px; /* Define o tamanho da fonte */
+}
+
+#resultText {
+    font-weight: bold; /* Define negrito para o texto */
+    color: green; /* Define a cor do texto */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#thankYouMessage {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/*FOOTER*/
+/* Adicione este estilo ao seu CSS */
+
+
+footer .copyright {
+    margin-bottom: 10px; /* Adiciona margem inferior entre as divs */
+    font-size: 10px;
+}
