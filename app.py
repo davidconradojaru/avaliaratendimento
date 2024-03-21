@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
+from flask_security import roles_required, current_user
 import psycopg2
-from datetime import datetime
 
-# Inicializar o aplicativo Flask
 app = Flask(__name__)
 
 # Configuração do banco de dados PostgreSQL
@@ -13,71 +12,183 @@ DB_USER = 'postgres'
 DB_PASSWORD = '1478963'
 SCHEMA_NAME = 'novalarschema'  # Nome do schema
 
-from flask import request
 
-@app.route('/vendedores/<int:idvendedor>', methods=['GET'])
-def get_vendedor(idvendedor):
+#rota consultar usuario por id
+
+@app.route('/usuarios/<int:id_usuario>', methods=['GET'])
+def consultar_usuario_por_id(id_usuario):
     try:
-        # Conectar ao banco de dados
-        conn = psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
-        cursor = conn.cursor()
-
-        # Consultar o vendedor na tabela vendedores dentro do schema
-        cursor.execute(f"SELECT idvendedor, nomevendedor FROM {SCHEMA_NAME}.vendedores WHERE idvendedor = %s", (idvendedor,))
-
-        # Obter o resultado da consulta
-        vendedor = cursor.fetchone()
-
-        # Fechar a conexão com o banco de dados
-        cursor.close()
-        conn.close()
-
-        # Verificar se o vendedor foi encontrado
-        if vendedor:
-            return jsonify(vendedor)
-        else:
-            return jsonify({'error': 'Vendedor não encontrado'}), 404
-
+        with psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(f"SELECT * FROM {SCHEMA_NAME}.usuarios WHERE idusuario = %s", (id_usuario,))
+                usuario = cursor.fetchone()
+                if usuario:
+                    return jsonify(usuario)
+                else:
+                    return jsonify({'error': 'Usuário não encontrado'}), 404
     except psycopg2.Error as e:
-        print("Erro ao consultar o vendedor:", e)
-        return jsonify({'error': 'Erro ao consultar o vendedor'}), 500
+        print("Erro ao consultar o usuário por ID:", e)
+        return jsonify({'error': 'Erro ao consultar o usuário por ID'}), 500
 
 
-# Rota para inserir a avaliação na tabela avaliacoes
-@app.route('/avaliacoes', methods=['POST'])
-def inserir_avaliacao():
+
+#ROTA BUSCA TODOS USUARIOS
+@app.route('/usuarios', methods=['GET'])
+def consultar_usuarios():
     try:
-        # Receber os dados da avaliação
-        data = request.json
-        idvendedor = data['idvendedor']
-        avaliacao = data['avaliacao']
+        nome = request.args.get('nome')
+        if nome:
+            with psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(f"SELECT * FROM {SCHEMA_NAME}.usuarios WHERE nome = %s", (nome,))
+                    usuarios = cursor.fetchall()
+                    if usuarios:
+                        return jsonify(usuarios)
+                    else:
+                        return jsonify({'error': 'Nenhum usuário encontrado com esse nome'}), 404
+        else:
+            with psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(f"SELECT * FROM {SCHEMA_NAME}.usuarios")
+                    usuarios = cursor.fetchall()
+                    if usuarios:
+                        return jsonify(usuarios)
+                    else:
+                        return jsonify({'message': 'Nenhum usuário encontrado'}), 404
+    except psycopg2.Error as e:
+        print("Erro ao consultar os usuários:", e)
+        return jsonify({'error': 'Erro ao consultar os usuários'}), 500
+    
+    
+#ROTA CRIAR USUARIO
+@app.route('/usuarios', methods=['POST'])
+#@roles_required('admin')    ##LEMBRAR DE ATIVAR AQUI QUANDO REQUERIR USUARIO ADMIN PARA PODER CRIAR E TAL
+def criar_usuario():
+    try:
+        # Obtenha os dados do novo usuário a partir do corpo da solicitação
+        dados_usuario = request.json
 
-        # Registrar a data e horário da avaliação
-        data_avaliacao = datetime.now()
+        # Valide os dados recebidos
 
         # Conectar ao banco de dados
         conn = psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
         cursor = conn.cursor()
 
-        # Inserir a avaliação na tabela avaliacoes dentro do schema
-        cursor.execute(f"INSERT INTO {SCHEMA_NAME}.avaliacoes (idvendedor, avaliacao, dataavaliacao, horarioavaliacao) VALUES (%s, %s, %s, %s)",
-                       (idvendedor, avaliacao, data_avaliacao.date(), data_avaliacao.time()))
-
-        # Confirmar a transação
+        # Execute a inserção do novo usuário
+        cursor.execute(f"INSERT INTO {SCHEMA_NAME}.usuarios (nome, email, senha, tipo_usuario, ativo, idfilial, grupo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                       (dados_usuario['nome'], dados_usuario['email'], dados_usuario['senha'], dados_usuario['tipo_usuario'], True, dados_usuario['idfilial'], dados_usuario['grupo']))
         conn.commit()
 
-        # Fechar a conexão com o banco de dados
+        # Feche a conexão com o banco de dados
         cursor.close()
         conn.close()
 
-        # Retornar mensagem de sucesso
-        return jsonify({'message': 'Avaliação inserida com sucesso'})
+        # Retorne a resposta de sucesso
+        return jsonify({'message': 'Usuário criado com sucesso'}), 201
 
-    except KeyError:
-        return jsonify({'error': 'Dados incompletos'}), 400
     except psycopg2.Error as e:
-        print("Erro ao inserir avaliação:", e)
-        return jsonify({'error': 'Erro ao inserir a avaliação'}), 500
+        print("Erro ao criar o usuário:", e)
+        return jsonify({'error': 'Erro ao criar o usuário'}), 500
 
-if __name__ == '__main__':
+
+# ROTA ATUALIZAR USUARIO
+@app.route('/usuarios/<int:id_usuario>', methods=['PUT'])
+#@roles_required('admin')  ## LEMBRAR DE ATIVAR AQUI QUANDO REQUERIR USUARIO ADMIN PARA PODER ATUALIZAR
+def atualizar_usuario(id_usuario):
+    try:
+        # Obtenha os dados atualizados do usuário a partir do corpo da solicitação
+        dados_atualizados = request.json
+
+        # Conectar ao banco de dados
+        with psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                # Execute a atualização dos dados do usuário
+                cursor.execute(f"UPDATE {SCHEMA_NAME}.usuarios SET nome = %s, email = %s, senha = %s, tipo_usuario = %s, ativo = %s, idfilial = %s, grupo = %s WHERE idusuario = %s",
+                               (dados_atualizados['nome'], dados_atualizados['email'], dados_atualizados['senha'], dados_atualizados['tipo_usuario'], True, dados_atualizados['idfilial'], dados_atualizados['grupo'], id_usuario))
+                # Verifique se algum registro foi atualizado
+                if cursor.rowcount > 0:
+                    # Commit da transação
+                    conn.commit()
+                    # Retorne a resposta de sucesso
+                    return jsonify({'message': 'Usuário atualizado com sucesso'}), 200
+                else:
+                    # Retorne uma mensagem indicando que o usuário não foi encontrado
+                    return jsonify({'error': 'Usuário não encontrado'}), 404
+
+    except psycopg2.Error as e:
+        print("Erro ao atualizar o usuário:", e)
+        return jsonify({'error': 'Erro ao atualizar o usuário'}), 500
+
+
+
+
+##ROTA DELETAR USUARIO
+@app.route('/usuarios/<int:id_usuario>', methods=['DELETE'])
+##@roles_required('admin')  ## LEMBRAR DE ATIVAR AQUI QUANDO REQUERIR USUARIO ADMIN PARA PODER CRIAR E TAL
+def deletar_usuario(id_usuario):  
+    try:
+        # Conectar ao banco de dados
+        conn = psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
+        cursor = conn.cursor()
+
+        # Execute a exclusão do usuário
+        cursor.execute(f"DELETE FROM {SCHEMA_NAME}.usuarios WHERE idusuario = %s", (id_usuario,))
+        conn.commit()
+
+        # Verifique se algum registro foi excluído
+        if cursor.rowcount > 0:
+            # Feche a conexão com o banco de dados
+            cursor.close()
+            conn.close()
+
+            # Retorne a resposta de sucesso
+            return jsonify({'message': 'Usuário excluído com sucesso'}), 200
+        else:
+            # Feche a conexão com o banco de dados
+            cursor.close()
+            conn.close()
+
+            # Retorne uma mensagem indicando que o usuário não foi encontrado
+            return jsonify({'error': 'Usuário não encontrado'}), 404
+
+    except psycopg2.Error as e:
+        print("Erro ao deletar o usuário:", e)
+        return jsonify({'error': 'Erro ao deletar o usuário'}), 500
+
+
+#ROTA DESATIVAR USUARIO
+
+@app.route('/usuarios/<int:id_usuario>/desativar', methods=['PUT'])
+def desativar_usuario(id_usuario):
+    try:
+        # Conectar ao banco de dados
+        conn = psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
+        cursor = conn.cursor()
+
+        # Execute a atualização da coluna 'ativo' para False
+        cursor.execute(f"UPDATE {SCHEMA_NAME}.usuarios SET ativo = False WHERE idusuario = %s", (id_usuario,))
+        conn.commit()
+
+        # Verifique se algum registro foi atualizado
+        if cursor.rowcount > 0:
+            # Feche a conexão com o banco de dados
+            cursor.close()
+            conn.close()
+
+            # Retorne a resposta de sucesso
+            return jsonify({'message': 'Usuário desativado com sucesso'}), 200
+        else:
+            # Feche a conexão com o banco de dados
+            cursor.close()
+            conn.close()
+
+            # Retorne uma mensagem indicando que o usuário não foi encontrado
+            return jsonify({'error': 'Usuário não encontrado'}), 404
+
+    except psycopg2.Error as e:
+        print("Erro ao desativar o usuário:", e)
+        return jsonify({'error': 'Erro ao desativar o usuário'}), 500
+
+
+if __name__ == "__main__":
     app.run(debug=True)
