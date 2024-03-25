@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_security import roles_required, current_user
 import psycopg2
+import bcrypt  # Importe a biblioteca bcrypt para verificar a senha
 
 app = Flask(__name__)
 
@@ -60,9 +61,8 @@ def consultar_usuarios():
         return jsonify({'error': 'Erro ao consultar os usuários'}), 500
     
     
-#ROTA CRIAR USUARIO
+# ROTA CRIAR USUARIO
 @app.route('/usuarios', methods=['POST'])
-#@roles_required('admin')    ##LEMBRAR DE ATIVAR AQUI QUANDO REQUERIR USUARIO ADMIN PARA PODER CRIAR E TAL
 def criar_usuario():
     try:
         # Obtenha os dados do novo usuário a partir do corpo da solicitação
@@ -70,13 +70,16 @@ def criar_usuario():
 
         # Valide os dados recebidos
 
+        # Hash da senha antes de armazenar no banco de dados
+        senha_hash = bcrypt.hashpw(dados_usuario['senha'].encode('utf-8'), bcrypt.gensalt())
+
         # Conectar ao banco de dados
         conn = psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
         cursor = conn.cursor()
 
         # Execute a inserção do novo usuário
         cursor.execute(f"INSERT INTO {SCHEMA_NAME}.usuarios (nome, email, senha, tipo_usuario, ativo, idfilial, grupo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                       (dados_usuario['nome'], dados_usuario['email'], dados_usuario['senha'], dados_usuario['tipo_usuario'], True, dados_usuario['idfilial'], dados_usuario['grupo']))
+                       (dados_usuario['nome'], dados_usuario['email'], senha_hash, dados_usuario['tipo_usuario'], True, dados_usuario['idfilial'], dados_usuario['grupo']))
         conn.commit()
 
         # Feche a conexão com o banco de dados
@@ -188,6 +191,50 @@ def desativar_usuario(id_usuario):
     except psycopg2.Error as e:
         print("Erro ao desativar o usuário:", e)
         return jsonify({'error': 'Erro ao desativar o usuário'}), 500
+
+# Função para verificar as credenciais do usuário durante o login
+def verificar_credenciais(email, senha):
+    conn = psycopg2.connect(host=DB_HOST, port=DB_PORT, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT * FROM {SCHEMA_NAME}.usuarios WHERE email = %s", (email,))
+    usuario = cursor.fetchone()
+
+    if usuario:
+        # Verifique se a senha fornecida coincide com o hash da senha armazenada no banco de dados
+        if bcrypt.checkpw(senha.encode('utf-8'), usuario[3].encode('utf-8')):
+            return usuario
+    return None
+
+# ROTA LOGIN
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        # Obtenha os dados do usuário do corpo da solicitação
+        dados_login = request.json
+
+        # Verifique as credenciais do usuário
+        usuario = verificar_credenciais(dados_login['email'], dados_login['senha'])
+
+        if usuario:
+            # Se as credenciais estiverem corretas, retorne uma resposta de sucesso
+            return jsonify({'message': 'Login bem-sucedido'}), 200
+        else:
+            # Se as credenciais estiverem incorretas, retorne uma mensagem de erro
+            return jsonify({'error': 'Credenciais incorretas'}), 401
+
+    except psycopg2.Error as e:
+        # Em caso de erro de banco de dados, retorne uma mensagem de erro
+        print("Erro durante o login:", e)
+        return jsonify({'error': 'Erro durante o login'}), 500
+
+    finally:
+        # Certifique-se de fechar a conexão com o banco de dados, mesmo em caso de erro
+        if conn:
+            conn.close()
+   
+    
+    
 
 
 if __name__ == "__main__":
