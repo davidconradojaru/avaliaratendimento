@@ -239,8 +239,8 @@ def login():
 
     finally:
         # Certifique-se de fechar a conexão com o banco de dados, mesmo em caso de erro
-        if conn:
-            conn.close()
+        if psycopg2.connect:
+            psycopg2.connect.close()
    
     
     
