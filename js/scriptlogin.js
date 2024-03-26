@@ -1,3 +1,4 @@
+// Adicione um ouvinte de evento ao formulário de login
 document.getElementById("login-form").addEventListener("submit", function(event) {
     event.preventDefault(); // Evita o envio do formulário padrão
 
@@ -33,5 +34,21 @@ document.getElementById("login-form").addEventListener("submit", function(event)
             console.error('Ocorreu um erro:', error);
             alert("Ocorreu um erro ao processar a solicitação. Por favor, tente novamente mais tarde.");
         });
+
+        // Adicione um log para registrar a tentativa de login
+        console.log('Tentativa de login para o usuário:', username);
+    }
+});
+
+// Adicione um evento de clique ao ícone de olho para alternar a visibilidade da senha
+document.getElementById("togglePassword").addEventListener("click", function() {
+    var passwordField = document.getElementById("password");
+    var toggleBtn = document.getElementById("togglePassword");
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleBtn.textContent = "🔒";
+    } else {
+        passwordField.type = "password";
+        toggleBtn.textContent = "👁️";
     }
 });

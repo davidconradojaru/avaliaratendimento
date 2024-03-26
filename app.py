@@ -1,7 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_security import roles_required, current_user
 import psycopg2
-import bcrypt  # Importe a biblioteca bcrypt para verificar a senha
+import bcrypt # Importe a biblioteca bcrypt para verificar a senha
+import logging
+
+
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 app = Flask(__name__)
 
@@ -86,11 +91,15 @@ def criar_usuario():
         cursor.close()
         conn.close()
 
+        # Log do evento de criação de usuário
+        logging.info('Novo usuário criado: %s', dados_usuario['email'])
+
         # Retorne a resposta de sucesso
         return jsonify({'message': 'Usuário criado com sucesso'}), 201
 
     except psycopg2.Error as e:
-        print("Erro ao criar o usuário:", e)
+        # Log do erro ao criar usuário
+        logging.error('Erro ao criar o usuário: %s', e)
         return jsonify({'error': 'Erro ao criar o usuário'}), 500
 
 
