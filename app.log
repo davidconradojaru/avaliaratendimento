@@ -19,3 +19,23 @@
 2024-03-26 17:23:01,792 - WARNING -  * Debugger is active!
 2024-03-26 17:23:01,797 - INFO -  * Debugger PIN: 152-279-062
 2024-03-26 17:23:01,821 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-26 17:53:33,036 - INFO -  * Restarting with stat
+2024-03-26 17:53:33,818 - WARNING -  * Debugger is active!
+2024-03-26 17:53:33,822 - INFO -  * Debugger PIN: 152-279-062
+2024-03-26 17:53:33,834 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-26 17:53:55,557 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-26 17:53:55,619 - INFO -  * Restarting with stat
+2024-03-26 17:53:56,906 - INFO -  * Restarting with stat
+2024-03-26 17:53:57,839 - WARNING -  * Debugger is active!
+2024-03-26 17:53:57,842 - INFO -  * Debugger PIN: 152-279-062
+2024-03-26 17:53:57,854 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-26 17:54:01,668 - INFO -  * Restarting with stat
+2024-03-26 17:54:02,510 - WARNING -  * Debugger is active!
+2024-03-26 17:54:02,514 - INFO -  * Debugger PIN: 152-279-062
+2024-03-26 17:54:02,527 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-26 17:54:12,462 - INFO - 127.0.0.1 - - [26/Mar/2024 17:54:12] "[37mGET /usuarios HTTP/1.1[0m" 200 -
+2024-03-26 17:57:31,656 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-26 17:57:31,800 - INFO -  * Restarting with stat
+2024-03-26 17:57:33,930 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-26 17:57:39,787 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-26 17:57:50,153 - INFO - 127.0.0.1 - - [26/Mar/2024 17:57:50] "[37mGET /usuarios HTTP/1.1[0m" 200 -

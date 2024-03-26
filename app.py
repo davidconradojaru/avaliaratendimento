@@ -215,36 +215,35 @@ def verificar_credenciais(email, senha):
             return usuario
     return None
 
-# ROTA LOGIN
+# Rota para lidar com solicitações de login
 @app.route('/login', methods=['POST'])
 def login():
     try:
-        # Obtenha os dados do usuário do corpo da solicitação
-        dados_login = request.json
+        if request.method == 'POST':
+            # Obtenha os dados do usuário do corpo da solicitação
+            dados_login = request.json
 
-        # Verifique as credenciais do usuário
-        usuario = verificar_credenciais(dados_login['email'], dados_login['senha'])
-
-        if usuario:
-            # Se as credenciais estiverem corretas, retorne uma resposta de sucesso
-            return jsonify({'message': 'Login bem-sucedido'}), 200
+            # Verifique as credenciais do usuário (substitua por sua própria lógica)
+            if 'username' in dados_login and 'password' in dados_login:
+                # Aqui você pode fazer a verificação do usuário e da senha
+                # Se as credenciais estiverem corretas, registre o login bem-sucedido no log
+                logging.info('Login bem-sucedido para o usuário: %s', dados_login['username'])
+                return jsonify({'message': 'Login bem-sucedido'}), 200
+            else:
+                # Se as credenciais estiverem incorretas, registre o erro no log e retorne uma mensagem de erro
+                logging.error('Credenciais incorretas')
+                return jsonify({'error': 'Credenciais incorretas'}), 401
         else:
-            # Se as credenciais estiverem incorretas, retorne uma mensagem de erro
-            return jsonify({'error': 'Credenciais incorretas'}), 401
+            # Se a rota não estiver configurada para aceitar solicitações POST,
+            # registre o erro no log e retorne um erro indicando que o método não é permitido
+            logging.error('Método não permitido')
+            return jsonify({'error': 'Método não permitido'}), 405
 
-    except psycopg2.Error as e:
-        # Em caso de erro de banco de dados, retorne uma mensagem de erro
-        print("Erro durante o login:", e)
-        return jsonify({'error': 'Erro durante o login'}), 500
+    except Exception as e:
+        # Em caso de erro durante o login, registre o erro no log e retorne um erro interno do servidor
+        logging.error('Erro durante o login: %s', e)
+        return jsonify({'error': 'Erro interno do servidor'}), 500
 
-    finally:
-        # Certifique-se de fechar a conexão com o banco de dados, mesmo em caso de erro
-        if psycopg2.connect:
-            psycopg2.connect.close()
-   
-    
-    
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
+
