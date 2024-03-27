@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 from flask_security import roles_required, current_user
 import psycopg2
-import bcrypt # Importe a biblioteca bcrypt para verificar a senha
+import bcrypt 
 import logging
 
 
@@ -9,6 +10,7 @@ logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s 
 
 
 app = Flask(__name__)
+CORS(app)
 
 # Configuração do banco de dados PostgreSQL
 DB_HOST = 'localhost'
@@ -217,6 +219,7 @@ def verificar_credenciais(email, senha):
 
 # Rota para lidar com solicitações de login
 @app.route('/login', methods=['POST'])
+@cross_origin()  # Permitindo solicitações CORS para esta rota específica
 def login():
     try:
         if request.method == 'POST':
@@ -224,10 +227,10 @@ def login():
             dados_login = request.json
 
             # Verifique as credenciais do usuário (substitua por sua própria lógica)
-            if 'username' in dados_login and 'password' in dados_login:
+            if 'email' in dados_login and 'senha' in dados_login:
                 # Aqui você pode fazer a verificação do usuário e da senha
                 # Se as credenciais estiverem corretas, registre o login bem-sucedido no log
-                logging.info('Login bem-sucedido para o usuário: %s', dados_login['username'])
+                logging.info('Login bem-sucedido para o usuário: %s', dados_login['email'])
                 return jsonify({'message': 'Login bem-sucedido'}), 200
             else:
                 # Se as credenciais estiverem incorretas, registre o erro no log e retorne uma mensagem de erro
@@ -243,7 +246,6 @@ def login():
         # Em caso de erro durante o login, registre o erro no log e retorne um erro interno do servidor
         logging.error('Erro durante o login: %s', e)
         return jsonify({'error': 'Erro interno do servidor'}), 500
-
 if __name__ == '__main__':
     app.run(debug=True)
 

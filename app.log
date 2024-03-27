@@ -39,3 +39,58 @@
 2024-03-26 17:57:33,930 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 2024-03-26 17:57:39,787 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 2024-03-26 17:57:50,153 - INFO - 127.0.0.1 - - [26/Mar/2024 17:57:50] "[37mGET /usuarios HTTP/1.1[0m" 200 -
+2024-03-27 16:04:21,319 - INFO -  * Restarting with stat
+2024-03-27 16:04:22,109 - WARNING -  * Debugger is active!
+2024-03-27 16:04:22,113 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 16:04:22,126 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 16:04:39,106 - INFO - 127.0.0.1 - - [27/Mar/2024 16:04:39] "[37mGET /usuarios HTTP/1.1[0m" 200 -
+2024-03-27 16:04:39,317 - INFO - 127.0.0.1 - - [27/Mar/2024 16:04:39] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-03-27 17:06:32,495 - INFO -  * Restarting with stat
+2024-03-27 17:06:33,345 - WARNING -  * Debugger is active!
+2024-03-27 17:06:33,348 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:06:33,360 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:07:22,009 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-27 17:07:22,422 - INFO -  * Restarting with stat
+2024-03-27 17:07:24,326 - WARNING -  * Debugger is active!
+2024-03-27 17:07:24,333 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:07:24,361 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:09:13,950 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-27 17:09:14,016 - INFO -  * Restarting with stat
+2024-03-27 17:12:01,446 - INFO -  * Restarting with stat
+2024-03-27 17:12:02,331 - WARNING -  * Debugger is active!
+2024-03-27 17:12:02,334 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:12:02,346 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:12:07,925 - INFO - 127.0.0.1 - - [27/Mar/2024 17:12:07] "[37mGET /usuarios HTTP/1.1[0m" 200 -
+2024-03-27 17:16:00,106 - INFO - 127.0.0.1 - - [27/Mar/2024 17:16:00] "[37mGET /usuarios HTTP/1.1[0m" 200 -
+2024-03-27 17:16:05,916 - INFO - 127.0.0.1 - - [27/Mar/2024 17:16:05] "[37mGET /usuarios/1005 HTTP/1.1[0m" 200 -
+2024-03-27 17:18:18,639 - INFO - 127.0.0.1 - - [27/Mar/2024 17:18:18] "[37mGET /usuarios/1005 HTTP/1.1[0m" 200 -
+2024-03-27 17:24:27,619 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-27 17:24:27,715 - INFO -  * Restarting with stat
+2024-03-27 17:24:29,910 - WARNING -  * Debugger is active!
+2024-03-27 17:24:29,920 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:24:29,943 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:24:31,021 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-27 17:24:31,105 - INFO -  * Restarting with stat
+2024-03-27 17:24:32,003 - WARNING -  * Debugger is active!
+2024-03-27 17:24:32,007 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:24:32,019 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:25:03,424 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-27 17:25:03,487 - INFO -  * Restarting with stat
+2024-03-27 17:25:04,534 - WARNING -  * Debugger is active!
+2024-03-27 17:25:04,538 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:25:04,551 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:25:08,588 - INFO - Login bem-sucedido para o usuário: bia@example.com
+2024-03-27 17:25:08,588 - INFO - 127.0.0.1 - - [27/Mar/2024 17:25:08] "[37mPOST /login HTTP/1.1[0m" 200 -
+2024-03-27 17:25:14,297 - INFO -  * Detected change in 'D:\\projetospaginas\\avaliaatendimento2\\app.py', reloading
+2024-03-27 17:25:14,364 - INFO -  * Restarting with stat
+2024-03-27 17:25:15,268 - WARNING -  * Debugger is active!
+2024-03-27 17:25:15,272 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:25:15,284 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:25:22,556 - INFO -  * Restarting with stat
+2024-03-27 17:25:23,355 - WARNING -  * Debugger is active!
+2024-03-27 17:25:23,359 - INFO -  * Debugger PIN: 152-279-062
+2024-03-27 17:25:23,370 - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2024-03-27 17:25:33,337 - INFO - 127.0.0.1 - - [27/Mar/2024 17:25:33] "[33mGET / HTTP/1.1[0m" 404 -
+2024-03-27 17:25:39,778 - INFO - 127.0.0.1 - - [27/Mar/2024 17:25:39] "[37mGET /usuarios HTTP/1.1[0m" 200 -
+2024-03-27 17:34:34,306 - INFO - Login bem-sucedido para o usuário: davidconrado@gmail.com
+2024-03-27 17:34:34,307 - INFO - 127.0.0.1 - - [27/Mar/2024 17:34:34] "[37mPOST /login HTTP/1.1[0m" 200 -
